@@ -2,9 +2,9 @@
 using System.Text;
 using System.Windows.Forms;
 
-namespace Evolutionary_Fuzzer {
+namespace Evolutionary_Fuzzer.Custom_Controls {
     public class TextBoxConsole : TextWriter {
-        readonly TextBox output = null;
+        readonly TextBox output;
 
         public TextBoxConsole(TextBox output) {
             this.output = output;
