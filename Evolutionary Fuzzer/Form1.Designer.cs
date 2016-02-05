@@ -135,7 +135,6 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(703, 20);
             this.textBox3.TabIndex = 9;
-            this.textBox3.Text = "**Not Implemented**";
             // 
             // button3
             // 
@@ -316,6 +315,7 @@
             this.Controls.Add(this.txtConsole);
             this.Name = "Form1";
             this.Text = "<Insert Name Here>";
+            this.toolTip1.SetToolTip(this, "Use <input> as a placeholder for the input file.");
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);

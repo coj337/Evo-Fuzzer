@@ -31,8 +31,9 @@ namespace Evolutionary_Fuzzer {
         }
 
         private void button2_Click(object sender, EventArgs e) {
-            new Task(() => debugger.createProcess(textBox1.Text, textBox2.Text)).Start();
-
+            if (checkInputs()) { //Check all fields exists, otherwise print an error
+                new Task(() => debugger.createProcess(textBox1.Text, textBox2.Text.Replace("<input>", textBox3.Text))).Start();
+            }
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e){
@@ -48,7 +49,9 @@ namespace Evolutionary_Fuzzer {
         }
 
         private void button3_Click(object sender, EventArgs e) {
-
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                textBox3.Text = openFileDialog1.FileName;
+            }
         }
 
         private void button4_Click(object sender, EventArgs e) {
@@ -65,6 +68,37 @@ namespace Evolutionary_Fuzzer {
 
         private void textBox5_TextChanged(object sender, EventArgs e){
             debugger.logDir = textBox5.Text;
+        }
+
+        private Boolean checkInputs() {
+            if (textBox4.Text == "") {
+                Console.WriteLine("Error: No DynamoRIO directory selected.");
+                return false;
+            }
+            else if (textBox5.Text == "") {
+                Console.WriteLine("Error: No log directory selected.");
+                return false;
+            }
+            else if (textBox1.Text == "") {
+                Console.WriteLine("Error: No executable selected.");
+                return false;
+            }
+            else if (textBox2.Text == "") {
+                Console.WriteLine("Error: No parameters entered.");
+                return false;
+            }
+            else if (!textBox2.Text.Contains("<input>")) {
+                Console.WriteLine("Error: No <input> placeholder in the parameters.");
+                return false;
+            }
+            else if(textBox3.Text == "") {
+                Console.WriteLine("Warning: No seed file selected. This may take a while or cause issues with programs expecting specific extensions.");
+                textBox3.Text = "fuzzed_file";
+                return true;
+            }
+            else {
+                return true;
+            }
         }
     }
 }
