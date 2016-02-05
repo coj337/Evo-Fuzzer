@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Diagnostics;
+using System.Threading;
+using System.Management;
 
 namespace Evolutionary_Fuzzer {
     public class Debugger{
-        public string dynamoDir { private get; set; }
-        public string arch { private get; set; }
-        public string logDir { private get; set; }
+        public String dynamoDir { private get; set; }
+        public String arch { private get; set; }
+        public String logDir { get; set; }
         private Process p;
+        public String[] childProcessDetails { get; private set; } = new String[2];
 
         public Debugger(){
             dynamoDir = "C:\\Program Files (x86)\\DynamoRIO";
@@ -15,7 +18,7 @@ namespace Evolutionary_Fuzzer {
             logDir = AppDomain.CurrentDomain.BaseDirectory;
         }
 
-        public void createProcess(string command, string parameters) {
+        public String[] createProcess(string command, string parameters) {
             // Format the directories so they can optionally end in a slash
             dynamoDir = dynamoDir.TrimEnd('\\', '/');
             logDir = logDir.TrimEnd('\\', '/');
@@ -40,6 +43,12 @@ namespace Evolutionary_Fuzzer {
 
             // Start the process
             p.Start();
+            while (!p.HasExited) { //The child process created by drcov may not exist right away, loop until it's found or drcov exits
+                childProcessDetails = getChildPID();
+                if (childProcessDetails[0] != "")
+                    break;
+            }
+            p.WaitForExit();
             Console.WriteLine(p.StandardOutput.ReadToEnd()); // Write result of command to stdout
             if (p.StandardError.Peek() != -1) {
                 Console.WriteLine(p.StandardError.ReadToEnd()); // Write any errors to stdout
@@ -47,6 +56,17 @@ namespace Evolutionary_Fuzzer {
             else {
                 Console.WriteLine("Program ran successfully!");
             }
+            return childProcessDetails;
+        }
+
+        private String[] getChildPID() {
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(String.Format("Select * From Win32_Process Where ParentProcessID={0}", p.Id));
+
+            foreach (ManagementObject proc in searcher.Get()) {
+                if (proc["Name"].ToString() != "conhost.exe")
+                    return new String[] { proc["ProcessID"].ToString(), proc["Name"].ToString() };
+            }
+            return new String[] { "" };
         }
     }
 }

@@ -12,9 +12,7 @@ using System.Windows.Forms;
 using Evolutionary_Fuzzer.Custom_Controls;
 
 namespace Evolutionary_Fuzzer {
-    public partial class Form1 : Form {
-        private readonly Debugger debugger = new Debugger();
-        
+    public partial class Form1 : Form {        
         public Form1() {
             InitializeComponent();
         }
@@ -32,20 +30,20 @@ namespace Evolutionary_Fuzzer {
 
         private void button2_Click(object sender, EventArgs e) {
             if (checkInputs()) { //Check all fields exists, otherwise print an error
-                new Task(() => debugger.createProcess(textBox1.Text, textBox2.Text.Replace("<input>", textBox3.Text))).Start();
+                new Task(() => Core.Start(textBox1.Text, textBox2.Text.Replace("<input>", textBox3.Text))).Start();
             }
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e){
-            debugger.dynamoDir = textBox4.Text;
+            Core.debugger.dynamoDir = textBox4.Text;
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e){
-            debugger.arch = "32";
+            Core.debugger.arch = "32";
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e) {
-            debugger.arch = "64";
+            Core.debugger.arch = "64";
         }
 
         private void button3_Click(object sender, EventArgs e) {
@@ -67,7 +65,7 @@ namespace Evolutionary_Fuzzer {
         }
 
         private void textBox5_TextChanged(object sender, EventArgs e){
-            debugger.logDir = textBox5.Text;
+            Core.debugger.logDir = textBox5.Text;
         }
 
         private Boolean checkInputs() {
@@ -99,6 +97,10 @@ namespace Evolutionary_Fuzzer {
             else {
                 return true;
             }
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e) {
+            Core.seedPath = textBox3.Text;
         }
     }
 }

@@ -5,6 +5,14 @@ using System.Text;
 
 namespace Evolutionary_Fuzzer {
     internal class Session {
+        private int fitness;
 
+        public void parseCovFile(String filePath) {
+
+        }
+
+        private void calcFitness() {
+
+        }
     }
 }
