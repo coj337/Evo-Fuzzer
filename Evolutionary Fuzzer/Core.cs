@@ -10,13 +10,14 @@ namespace Evolutionary_Fuzzer {
         private static ArrayList sessions = new ArrayList();
 
         public static void Start(string command, string param) {
-            String[] processDetails = new String[2];
+            String[] processDetails;
             Session currentSession;
 
             //LOOP
             currentSession = new Session();
             processDetails = debugger.createProcess(command, param); // Run program under code coverage tool, returns drcovs childs process id and name
-            currentSession.parseCovFile(debugger.logDir + "drcov." + processDetails[1] + "." + processDetails[0] + ".0000.proc.log"); // Pass log location so it can be parsed
+
+            currentSession.parseCovFile(debugger.logDir + "\\drcov." + processDetails[1] + "." + processDetails[0].PadLeft(5, '0') + ".0000.proc.log"); // Pass log location so it can be parsed
 
             sessions.Add(currentSession);
             // Analyze data
