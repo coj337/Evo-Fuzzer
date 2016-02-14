@@ -17,7 +17,7 @@ namespace Evolutionary_Fuzzer {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e) {
+        private void Form1_Load(Object sender, EventArgs e) {
             Console.SetOut(new TextBoxConsole(txtConsole));
             textBox5.Text = AppDomain.CurrentDomain.BaseDirectory;
         }
@@ -30,7 +30,7 @@ namespace Evolutionary_Fuzzer {
 
         private void button2_Click(object sender, EventArgs e) {
             if (checkInputs()) { //Check all fields exists, otherwise print an error
-                new Task(() => Core.Start(textBox1.Text, textBox2.Text.Replace("<input>", textBox3.Text))).Start();
+                new Task(() => Core.start(textBox1.Text, textBox2.Text.Replace("<input>", textBox3.Text))).Start();
             }
         }
 
@@ -99,7 +99,7 @@ namespace Evolutionary_Fuzzer {
             }
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e) {
+        private void textBox3_TextChanged(Object sender, EventArgs e) {
             Core.seedPath = textBox3.Text;
         }
     }

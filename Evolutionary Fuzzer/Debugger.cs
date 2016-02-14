@@ -10,7 +10,7 @@ namespace Evolutionary_Fuzzer {
         public String arch { private get; set; }
         public String logDir { get; set; }
         private Process p;
-        public String[] childProcessDetails { get; private set; } = new String[2];
+        private String[] childProcessDetails { get; set; } = new String[2];
 
         public Debugger(){
             dynamoDir = "C:\\Program Files (x86)\\DynamoRIO";
@@ -18,7 +18,7 @@ namespace Evolutionary_Fuzzer {
             logDir = AppDomain.CurrentDomain.BaseDirectory;
         }
 
-        public String[] createProcess(string command, string parameters) {
+        public String[] createProcess(String command, String parameters) {
             // Format the directories so they can optionally end in a slash
             dynamoDir = dynamoDir.TrimEnd('\\', '/');
             logDir = logDir.TrimEnd('\\', '/');
@@ -60,13 +60,13 @@ namespace Evolutionary_Fuzzer {
         }
 
         private String[] getChildPID() {
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(String.Format("Select * From Win32_Process Where ParentProcessID={0}", p.Id));
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher($"Select * From Win32_Process Where ParentProcessID={p.Id}");
 
             foreach (ManagementObject proc in searcher.Get()) {
                 if (proc["Name"].ToString() != "conhost.exe")
                     return new String[] { proc["ProcessID"].ToString(), proc["Name"].ToString() };
             }
-            return new String[] { "" };
+            return new[] {""};
         }
     }
 }
