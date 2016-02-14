@@ -29,7 +29,7 @@ namespace Evolutionary_Fuzzer {
         }
 
         private void button2_Click(object sender, EventArgs e) {
-            if (checkInputs()) { //Check all fields exists, otherwise print an error
+            if (checkInputs()) { //Check all fields exists, otherwise prInt32 an error
                 new Task(() => Core.start(textBox1.Text, textBox2.Text.Replace("<input>", textBox3.Text))).Start();
             }
         }

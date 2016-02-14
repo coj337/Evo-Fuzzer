@@ -42,7 +42,7 @@ namespace Evolutionary_Fuzzer {
                 }
                 else 
                     if (isBracket(Convert.ToChar(tok))){
-                        tokenType = Token.Type.Bracket;
+                        //tokenType = Token.Type.Bracket;
                     }
             }
         }

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 namespace Evolutionary_Fuzzer {
     static class Program {
         /// <summary>
-        /// The main entry point for the application.
+        /// The main entry poInt32for the application.
         /// </summary>
         [STAThread]
         static void Main() {

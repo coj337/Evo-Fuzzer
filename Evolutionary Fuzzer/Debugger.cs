@@ -13,7 +13,7 @@ namespace Evolutionary_Fuzzer {
         private String[] childProcessDetails { get; set; } = new String[2];
 
         public Debugger(){
-            dynamoDir = "C:\\Program Files (x86)\\DynamoRIO";
+            dynamoDir = @"C:\Program Files (x86)\DynamoRIO";
             arch = "32";
             logDir = AppDomain.CurrentDomain.BaseDirectory;
         }
@@ -24,8 +24,8 @@ namespace Evolutionary_Fuzzer {
             logDir = logDir.TrimEnd('\\', '/');
 
             // Pre/Append quotes to the parameter to allow spaces
-            parameters.Insert(0, "\"");
-            parameters.Insert(parameters.Length, "\"");
+            //parameters.Insert(0, "\"");
+            //parameters.Insert(parameters.Length, "\"");
 
             // Declare the child process.
             p = new Process {
@@ -35,7 +35,7 @@ namespace Evolutionary_Fuzzer {
                     RedirectStandardOutput = true,
                     RedirectStandardInput = true,
                     RedirectStandardError = true,
-                    FileName = dynamoDir + "\\bin" + arch + "\\drrun.exe",
+                    FileName = dynamoDir + @"\bin" + arch + @"\drrun.exe",
                     Arguments = "-t drcov -dump_text -logdir \"" + logDir + "\" -- \"" + command + "\" " + parameters,
                     CreateNoWindow = true
                 }
